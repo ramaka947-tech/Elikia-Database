@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* Couleurs Elikia : utilisables avec bg-elikia, text-elikia, border-gold, etc. */
+@theme {
+  --color-elikia: #0f6b3e;
+  --color-elikia-dark: #0a4d2c;
+  --color-elikia-light: #e7f3ec;
+  --color-gold: #c9a227;
+  --color-ink: #1f2933;
+}
+
+body {
+  @apply bg-gray-50 text-ink;
+}
