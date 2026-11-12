@@ -1,4 +1,4 @@
-// Responsable : Assane
+// Responsable : Sophiatou
 import { Router } from 'express';
 import multer from 'multer';
 import pool from '../db.js';
@@ -11,7 +11,7 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 *
 // Réponse attendue : { imported, duplicates, errors: [{ line, message }] }
 router.post('/', verifyToken, requireAdmin, upload.single('file'), async (req, res, next) => {
   try {
-    // TODO Assane : lire req.file.buffer avec Papa.parse, valider chaque ligne,
+    // TODO Sophiatou : lire req.file.buffer avec Papa.parse, valider chaque ligne,
     // détecter les doublons (ninea ou raison sociale), insérer les lignes valides
     res.status(501).json({ message: 'À implémenter' });
   } catch (err) {

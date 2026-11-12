@@ -1,4 +1,4 @@
--- Responsable : Assane (à compléter)
+-- Responsable : Sophiatou (à compléter)
 insert into sectors (name) values
   ('Agriculture et agroalimentaire'),
   ('BTP et immobilier'),

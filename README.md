@@ -14,9 +14,9 @@ Chaque membre développe **sa fonctionnalité de bout en bout** : la route API (
 | Membre | Fonctionnalité | Backend | Frontend |
 |---|---|---|---|
 | **Rama KA** (lead du dépôt) | Socle technique | Setup Express, connexion PostgreSQL, auth (login, JWT, bcrypt), middlewares de rôles, script de création admin, déploiement | Setup React, routing, layout (header, menu, couleurs), composants UI partagés, page Connexion, gestion du token |
-| **Sophiatou Ndiaye** | Répertoire | Recherche globale, filtres combinables, pagination, export CSV | Page Répertoire : barre de recherche, filtres, liste des résultats, pagination, bouton export |
+| **Assane Ndongue** | Répertoire | Recherche globale, filtres combinables, pagination, export CSV | Page Répertoire : barre de recherche, filtres, liste des résultats, pagination, bouton export |
 | **Abdoulaye BA** | Fiche + administration | Détail d'une entreprise, création, modification, archivage/suppression, liste des secteurs | Page Fiche, formulaire création/modification, boutons archiver/supprimer |
-| **Assane Ndongue** | Données, import, dashboard | Import CSV (validation, doublons, erreurs ligne par ligne), statistiques du dashboard | Page Import, page Dashboard, jeu de données de démo, modèle CSV, recette finale |
+| **Sophiatou Ndiaye** | Données, import, dashboard | Import CSV (validation, doublons, erreurs ligne par ligne), statistiques du dashboard | Page Import, page Dashboard, jeu de données de démo, modèle CSV, recette finale |
 
 **Règle :** chacun ne modifie que ses propres fichiers. Les fichiers partagés (voir plus bas) sont gérés par Rama. Si tu as besoin d'y toucher, préviens le groupe avant.
 
@@ -38,6 +38,41 @@ Hors périmètre du MVP : scraping, IA, paiement, API publique, application mobi
 
 ---
 
+## Style : Tailwind CSS
+
+Tailwind est **déjà installé et configuré**. On utilise **Tailwind v4** : il n'y a **pas** de fichier `tailwind.config.js` (les tutos qui en parlent sont pour l'ancienne version v3, ne pas en créer).
+
+- Le style s'écrit **directement dans le JSX** avec `className`. Pas de fichiers `.css` par composant.
+- Les couleurs Elikia sont définies une seule fois dans `frontend/src/index.css` (fichier partagé, géré par Rama) :
+
+| Classe | Couleur | Usage |
+|---|---|---|
+| `bg-elikia`, `text-elikia`, `border-elikia` | vert Elikia | boutons principaux, titres, header |
+| `bg-elikia-dark` | vert foncé | survol des boutons |
+| `bg-elikia-light` | vert très clair | fonds de section, badges "vérifié" |
+| `text-gold`, `border-gold` | doré | petites touches d'accent uniquement |
+| `text-ink` | gris foncé | texte principal |
+
+- Avant de créer un bouton, un champ ou un badge, **utiliser les composants de `components/ui/`** (`Button`, `Input`, `Badge`) pour que toute l'application ait le même style.
+- Penser mobile : utiliser les préfixes `md:` et `lg:` (ex : `grid grid-cols-1 md:grid-cols-3`).
+
+Exemple :
+
+```jsx
+import Button from '../components/ui/Button';
+import Badge from '../components/ui/Badge';
+
+<div className="bg-white rounded-xl shadow p-4">
+  <h2 className="text-lg font-semibold text-elikia">Sonatel</h2>
+  <Badge color="green">Vérifié</Badge>
+  <Button>Voir la fiche</Button>
+</div>
+```
+
+Besoin d'une nouvelle couleur ou d'un nouveau composant partagé : demander à Rama.
+
+---
+
 ## Organisation du code
 
 ```
@@ -47,13 +82,13 @@ backend/
     db.js                           Rama (partagé)
     middlewares/auth.js             Rama (partagé)
     routes/auth.routes.js           Rama
-    routes/search.routes.js         Sophiatou
+    routes/search.routes.js         Assane
     routes/companies.routes.js      Abdoulaye
     routes/sectors.routes.js        Abdoulaye
-    routes/import.routes.js         Assane
-    routes/stats.routes.js          Assane
+    routes/import.routes.js         Sophiatou
+    routes/stats.routes.js          Sophiatou
   sql/schema.sql                    Rama (partagé)
-  sql/seed_sectors.sql              Assane
+  sql/seed_sectors.sql              Sophiatou
   scripts/create-admin.js           Rama
   .env.example
 
@@ -65,15 +100,15 @@ frontend/
     components/layout/              Rama (partagé)
     components/ui/                  Rama (partagé : boutons, inputs, badges)
     pages/Login.jsx                 Rama
-    pages/Repertoire.jsx            Sophiatou
-    components/repertoire/          Sophiatou
+    pages/Repertoire.jsx            Assane
+    components/repertoire/          Assane
     pages/Fiche.jsx                 Abdoulaye
     pages/CompanyForm.jsx           Abdoulaye
     components/fiche/               Abdoulaye
-    pages/Dashboard.jsx             Assane
-    pages/Import.jsx                Assane
-    components/import/              Assane
-    components/dashboard/           Assane
+    pages/Dashboard.jsx             Sophiatou
+    pages/Import.jsx                Sophiatou
+    components/import/              Sophiatou
+    components/dashboard/           Sophiatou
   .env.example
 ```
 
@@ -93,16 +128,16 @@ Tout le monde se base sur ce tableau. Si tu changes une route ou le format d'une
 |---|---|---|---|---|
 | POST | `/api/auth/login` | public | Rama | Connexion, renvoie `{ token, user }` |
 | GET | `/api/auth/me` | connecté | Rama | Utilisateur courant |
-| GET | `/api/companies?q=&sector=&region=&city=&legal_form=&size=&status=&has_website=&has_email=&has_phone=&min_confidence=&page=&limit=` | connecté | Sophiatou | Recherche + filtres + pagination, renvoie `{ data, total, page, limit }` |
-| GET | `/api/companies/export?...mêmes filtres` | connecté | Sophiatou | Export CSV des résultats filtrés |
+| GET | `/api/companies?q=&sector=&region=&city=&legal_form=&size=&status=&has_website=&has_email=&has_phone=&min_confidence=&page=&limit=` | connecté | Assane | Recherche + filtres + pagination, renvoie `{ data, total, page, limit }` |
+| GET | `/api/companies/export?...mêmes filtres` | connecté | Assane | Export CSV des résultats filtrés |
 | GET | `/api/companies/:id` | connecté | Abdoulaye | Fiche complète (avec dirigeants et secteur) |
 | POST | `/api/companies` | ADMIN | Abdoulaye | Créer une entreprise |
 | PUT | `/api/companies/:id` | ADMIN | Abdoulaye | Modifier une entreprise |
 | PATCH | `/api/companies/:id/archive` | ADMIN | Abdoulaye | Archiver |
 | DELETE | `/api/companies/:id` | ADMIN | Abdoulaye | Supprimer |
 | GET | `/api/sectors` | connecté | Abdoulaye | Liste des secteurs et sous-secteurs |
-| POST | `/api/import` | ADMIN | Assane | Import CSV, renvoie `{ imported, duplicates, errors: [{ line, message }] }` |
-| GET | `/api/stats` | connecté | Assane | KPI : total, top 5 secteurs, top 5 villes, fiches mises à jour sur 30 jours |
+| POST | `/api/import` | ADMIN | Sophiatou | Import CSV, renvoie `{ imported, duplicates, errors: [{ line, message }] }` |
+| GET | `/api/stats` | connecté | Sophiatou | KPI : total, top 5 secteurs, top 5 villes, fiches mises à jour sur 30 jours |
 
 Le token JWT est envoyé dans l'en-tête : `Authorization: Bearer <token>`.
 
@@ -119,9 +154,9 @@ feat/...    une branche par personne, créée depuis develop.
 Branches de travail :
 
 - `feat/socle` (Rama)
-- `feat/repertoire` (Sophiatou)
+- `feat/repertoire` (Assane)
 - `feat/fiche-admin` (Abdoulaye)
-- `feat/import-dashboard` (Assane)
+- `feat/import-dashboard` (Sophiatou)
 
 ### Workflow quotidien
 

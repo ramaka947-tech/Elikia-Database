@@ -1,4 +1,4 @@
-// Responsable : Assane
+// Responsable : Sophiatou
 import { Router } from 'express';
 import pool from '../db.js';
 import { verifyToken } from '../middlewares/auth.js';
