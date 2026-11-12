@@ -19,11 +19,11 @@ app.use(express.json());
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 
 app.use('/api/auth', authRoutes);              // Rama
-app.use('/api/companies', searchRoutes);       // Sophiatou (doit rester AVANT companiesRoutes)
+app.use('/api/companies', searchRoutes);       // Assane (doit rester AVANT companiesRoutes)
 app.use('/api/companies', companiesRoutes);    // Abdoulaye
 app.use('/api/sectors', sectorsRoutes);        // Abdoulaye
-app.use('/api/import', importRoutes);          // Assane
-app.use('/api/stats', statsRoutes);            // Assane
+app.use('/api/import', importRoutes);          // Sophiatou
+app.use('/api/stats', statsRoutes);            // Sophiatou
 
 app.use((err, req, res, next) => {
   console.error(err);

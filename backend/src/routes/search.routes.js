@@ -1,4 +1,4 @@
-// Responsable : Sophiatou
+// Responsable : Assane
 import { Router } from 'express';
 import pool from '../db.js';
 import { verifyToken } from '../middlewares/auth.js';
@@ -10,7 +10,7 @@ const router = Router();
 // Réponse attendue : { data: [...], total, page, limit }
 router.get('/', verifyToken, async (req, res, next) => {
   try {
-    // TODO Sophiatou : construire la requête avec recherche + filtres + pagination
+    // TODO Assane : construire la requête avec recherche + filtres + pagination
     res.json({ data: [], total: 0, page: 1, limit: 20 });
   } catch (err) {
     next(err);
@@ -21,7 +21,7 @@ router.get('/', verifyToken, async (req, res, next) => {
 // Réponse attendue : fichier CSV
 router.get('/export', verifyToken, async (req, res, next) => {
   try {
-    // TODO Sophiatou : mêmes filtres que ci-dessus, puis Papa.unparse(rows)
+    // TODO Assane : mêmes filtres que ci-dessus, puis Papa.unparse(rows)
     res.status(501).json({ message: 'À implémenter' });
   } catch (err) {
     next(err);
